@@ -64,8 +64,6 @@ router.get("/hp", function (req, res, next) {
     return;
   }
   
-  
-  
   res.status(501).json({ message: "Not Implemented" });
   return;
 });
