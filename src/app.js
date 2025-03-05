@@ -22,3 +22,4 @@ app.use("/pokemon", pokemonRouter);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 module.exports = app;
+app.listen(3000,console.log("Server running on port 3000"));
