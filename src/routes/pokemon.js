@@ -7,6 +7,18 @@ router.get("/", function (req, res, next) {
   res.json(pokedex);
 });
 
+/* GET Pokemon by English Name */
+router.get("/name/:name", function (req, res, next) {
+  // TODO: Implement this route. See swagger docs for details, by visiting http://localhost:3000/api-docs
+  
+  const name = req.params.name;
+    const pokemon = pokedex.find(p => p.name.english === "Pikachu");
+    if (!pokemon) {
+        return res.status(404).json({ error: "Pokemon not found" });
+    }
+    res.json(pokemon);
+});
+
 /* GET Pokemon by Id. */
 router.get("/:id", function (req, res, next) {
   // TODO: Implement this route. See swagger docs for details, by visiting http://localhost:3000/api-docs
@@ -23,17 +35,7 @@ router.get("/:id", function (req, res, next) {
   return;
 });
 
-/* GET Pokemon by English Name */
-router.get("/name/:name", function (req, res, next) {
-  // TODO: Implement this route. See swagger docs for details, by visiting http://localhost:3000/api-docs
-  
-  const name = req.params.name;
-    const pokemon = pokedex.find(p => p.name.english === "Pikachu");
-    if (!pokemon) {
-        return res.status(404).json({ error: "Pokemon not found" });
-    }
-    res.json(pokemon);
-});
+
 
 /* GET Pokemon by Type */
 router.get("/type/:type", function (req, res, next) {
