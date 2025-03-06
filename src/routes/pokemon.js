@@ -3,12 +3,6 @@ const router = express.Router();
 const pokedex = require("../db/pokedex.json");
 
 
-
-// router.get("/hp",  (req, res, next) =>{
-//   const filredParams = req.query;
-//   res.json(filredParams)
- 
-// });
 router.get("/hp", (req, res) => {
   const { gte, lte, gt, lt } = req.query;
 
@@ -21,9 +15,6 @@ router.get("/hp", (req, res) => {
 
   res.json(filteredPokemons.length ? filteredPokemons : { message: "No Pokémon found" });
 });
-
-
-
 
 router.get("/type/:type", (req, res, next) => {
   const queryType = req.params.type.toLowerCase();
@@ -44,11 +35,6 @@ router.get("/type/:type", (req, res, next) => {
   return;
 });
 
-
-
-
-
-//
 router.get("/name/:name",  (req, res, next) =>  {
 
   const queryName = req.params.name.toLowerCase();
@@ -59,7 +45,6 @@ router.get("/name/:name",  (req, res, next) =>  {
     res.json(pokemon);
 });
 
-//
 router.get("/:id",  (req, res, next) => {
   
   const id = req.params.id;
@@ -73,8 +58,5 @@ router.get("/:id",  (req, res, next) => {
   return res.status(404).json({ error: "Pokemon not found" });
   return;
 });
-
-
-//
 
 module.exports = router;
