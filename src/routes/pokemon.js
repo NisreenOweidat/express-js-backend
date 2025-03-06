@@ -2,26 +2,41 @@ const express = require("express");
 const router = express.Router();
 const pokedex = require("../db/pokedex.json");
 
-/* GET All Pokemon */
-router.get("/", function (req, res, next) {
-  res.json(pokedex);
+
+
+// router.get("/hp",  (req, res, next) =>{
+//   const filredParams = req.query;
+//   res.json(filredParams)
+ 
+// });
+router.get("/hp", (req, res) => {
+  const { gte, lte, gt, lt } = req.query;
+
+  const filteredPokemons = pokedex.filter(p =>
+    (!gte || p.base.HP >= gte) &&
+    (!lte || p.base.HP <= lte) &&
+    (!gt || p.base.HP > gt) &&
+    (!lt || p.base.HP < lt)
+  );
+
+  res.json(filteredPokemons.length ? filteredPokemons : { message: "No Pokémon found" });
 });
 
-/* GET Pokemon by English Name */
-router.get("/name/:name", function (req, res, next) {
-  // TODO: Implement this route. See swagger docs for details, by visiting http://localhost:3000/api-docs
-  
-  const name = req.params.name;
-    const pokemon = pokedex.find(p => p.name.english === "Pikachu");
+
+
+//
+router.get("/name/:name",  (req, res, next) =>  {
+
+  const queryName = req.params.name.toLowerCase();
+    const pokemon = pokedex.find(p => p.name.english.toLowerCase() === queryName);
     if (!pokemon) {
         return res.status(404).json({ error: "Pokemon not found" });
     }
     res.json(pokemon);
 });
 
-/* GET Pokemon by Id. */
-router.get("/:id", function (req, res, next) {
-  // TODO: Implement this route. See swagger docs for details, by visiting http://localhost:3000/api-docs
+//
+router.get("/:id",  (req, res, next) => {
   
   const id = req.params.id;
   const pokemon = pokedex.find(p => p.id == id);
@@ -30,43 +45,23 @@ router.get("/:id", function (req, res, next) {
     res.json(pokemon);
     return;
   }
-  
-  res.status(501).json({ message: "Not Implemented" });
+
+  return res.status(404).json({ error: "Pokemon not found" });
   return;
 });
 
 
-
-/* GET Pokemon by Type */
-router.get("/type/:type", function (req, res, next) {
-  // TODO: Implement this route. See swagger docs for details, by visiting http://localhost:3000/api-docs
+//
+router.get("/type/:type", (req, res, next) => {
   
-  const type = req.params.type;
-  const pokemon = pokedex.filter(p => p.type.includes("Fire"));
+  const queryType = req.params.type.toLowerCase();
+  const pokemon = pokedex.filter(p => p.type.toLowerCase() === queryType);
   
-  if (pokemon) {
-    res.json(pokemon);
-    return;
+  if (!pokemon) {
+   res.status(404).json({ error: "Pokemon not found" });
+   return;
   }
-
-  
-  res.status(501).json({ message: "Not Implemented" });
-  return;
-});
-
-/* GET Pokemon by HP */
-router.get("/hp", function (req, res, next) {
-  // TODO: Implement this route. See swagger docs for details, by visiting http://localhost:3000/api-docs
-  
-  const hp = req.params.hp;
-  const pokemon = pokedex.filter(p => p.base.HP >= 90);
-  
-  if (pokemon) {
-    res.json(pokemon);
-    return;
-  }
-  
-  res.status(501).json({ message: "Not Implemented" });
+  res.status(200).json(pokemon);
   return;
 });
 

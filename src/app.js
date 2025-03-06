@@ -6,6 +6,7 @@ const swaggerUi = require("swagger-ui-express");
 const YAML = require("yamljs");
 const swaggerDocument = YAML.load("./docs/swagger.yaml");
 
+
 const indexRouter = require("./routes/index");
 const pokemonRouter = require("./routes/pokemon");
 
