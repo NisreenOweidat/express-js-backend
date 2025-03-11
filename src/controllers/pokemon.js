@@ -1,7 +1,8 @@
 
-const x = require("../db/pokedex.json");
-const pokedex = x;
+const pokedex = require("../db/pokedex.json");
 
+
+//=======================get/begin=======================//
 
 exports.getHp = (req, res) => {
     const { gte, lte, gt, lt } = req.query;
@@ -29,7 +30,7 @@ exports.getType = (req ,res) => {
     }
   });
 
-  if (pokemon.length === 0) {
+  if (!pokemon) {
     res.status(404).json({ error: "Pokemon not found" });
     return;
   }
@@ -58,4 +59,39 @@ exports.getId = (req, res) => {
   }
   res.json(pokemon);
 };
+//=======================get/ends=======================//
 
+
+//delete
+
+exports.deletePokemon = (req, res) => {
+  const id = req.params.id;
+  const index = pokedex.findIndex(p => p.id == id);
+  if (index === -1) {
+      return res.status(404).json({ error: "Pokemon not found" });
+  }
+  pokedex.splice(index, 1);
+  res.json({ message: "Pokemon deleted successfully" });
+};
+
+
+// //update
+
+exports.updatePokemon = (req, res) => {
+  const id = req.params.id;
+  const index = pokedex.findIndex(p => p.id == id);
+  if (index === -1) {
+      return res.status(404).json({ error: "Pokemon not found" });
+  }
+  pokedex[index] = { ...pokedex[index], ...req.body };
+  res.json(pokedex[index]);
+};    
+
+
+// create 
+
+exports.createPokemon = (req, res) => {
+  const newPokemon = req.body;
+  pokedex.push(newPokemon);
+  res.status(201).json(newPokemon); 
+}

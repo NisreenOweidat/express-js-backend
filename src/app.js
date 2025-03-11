@@ -5,10 +5,13 @@ const logger = require("morgan");
 const swaggerUi = require("swagger-ui-express");
 const YAML = require("yamljs");
 const swaggerDocument = YAML.load("./docs/swagger.yaml");
-
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const indexRouter = require("./routes/index");
 const pokemonRouter = require("./routes/pokemon");
+const authRouter = require("./routes/auth");
+
 
 const app = express();
 
@@ -19,6 +22,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
+app.use("/auth", authRouter);
 app.use("/pokemon", pokemonRouter);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
