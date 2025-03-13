@@ -20,9 +20,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/", indexRouter);
-app.use("/auth", authRouter);
-app.use("/pokemon", pokemonRouter);
+app.use("/", indexRouter); // localhost:3000 -> home page
+app.use("/auth", authRouter); // localhost:3000/auth/ -> auth page for login and register
+app.use("/pokemon", pokemonRouter);// localhost:3000/pokemon/ -> pokemon page for pokemon with hp / id / name/ type / create/ update/ delete
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 module.exports = app;

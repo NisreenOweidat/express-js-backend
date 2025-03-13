@@ -1,3 +1,5 @@
+
+
 const express = require("express");
 const jwt = require("jsonwebtoken"); // for generating token
 const bcrypt = require("bcryptjs"); // for encrypting password
@@ -6,7 +8,7 @@ const router = express.Router();
 
 const users = [];
 
-const SECRET_KEY = "your_secret_key";
+const SECRET_KEY = "nisreen`s token";
 
 router.post("/signup", async (req, res) => { // create new user
     const { username, password } = req.body;
@@ -29,7 +31,7 @@ router.post("/login", async (req, res) => { // normal login
     const user = users.find(user => user.username === username);
 
     if (!user || !(await bcrypt.compare(password, user.password))) {
-        return res.status(401).json({ error: "Invalid credentials" });
+        return res.status(401).json({ error: "username or password is incorrect" });
     }
 
 
