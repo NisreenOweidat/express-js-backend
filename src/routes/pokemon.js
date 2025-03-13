@@ -15,17 +15,17 @@ router.get("/name/:name", pokemonControllers.getName);
 router.get("/:id", pokemonControllers.getId);
 
 
-//login
-router.post("/", authenticateUser);
+//user
+router.post("/", authenticateUser); // authenticate user middleware 
 
-router.put("/:id", authenticateUser);
+router.put("/:id", authenticateUser); 
 
 router.delete("/:id", authenticateUser);
 
-// router.delete("/:id", pokemonControllers.deletePokemon);
+router.delete("/:id", pokemonControllers.deletePokemon);
 
-// router.put("/:id", pokemonControllers.updatePokemon);
+router.put("/:id", pokemonControllers.updatePokemon);
 
-// router.post("/", pokemonControllers.createPokemon);
+router.post("/", pokemonControllers.createPokemon); 
 
 module.exports = router;

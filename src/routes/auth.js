@@ -1,6 +1,6 @@
 const express = require("express");
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken"); // for generating token
+const bcrypt = require("bcryptjs"); // for encrypting password
 
 const router = express.Router();
 
@@ -8,7 +8,7 @@ const users = [];
 
 const SECRET_KEY = "your_secret_key";
 
-router.post("/signup", async (req, res) => {
+router.post("/signup", async (req, res) => { // create new user
     const { username, password } = req.body;
 
 
@@ -24,7 +24,7 @@ router.post("/signup", async (req, res) => {
 });
 
 
-router.post("/login", async (req, res) => {
+router.post("/login", async (req, res) => { // normal login 
     const { username, password } = req.body;
     const user = users.find(user => user.username === username);
 

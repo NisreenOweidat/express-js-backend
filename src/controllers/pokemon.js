@@ -75,7 +75,15 @@ exports.deletePokemon = (req, res) => {
 };
 
 
-// //update
+// create 
+
+exports.createPokemon = (req, res) => {
+  const newPokemon = req.body;
+  pokedex.push(newPokemon);
+  res.status(201).json(newPokemon); 
+}
+
+//update
 
 exports.updatePokemon = (req, res) => {
   const id = req.params.id;
@@ -87,11 +95,3 @@ exports.updatePokemon = (req, res) => {
   res.json(pokedex[index]);
 };    
 
-
-// create 
-
-exports.createPokemon = (req, res) => {
-  const newPokemon = req.body;
-  pokedex.push(newPokemon);
-  res.status(201).json(newPokemon); 
-}
