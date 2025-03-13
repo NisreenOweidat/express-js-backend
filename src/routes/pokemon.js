@@ -1,11 +1,19 @@
+/**
+ * This file is for creating all the routes that are related to pokemon.
+ * depending on the user role , GUST or AUTHENTICATED USER.
+ */
 const express = require("express");
 const router = express.Router();
 
 
-const pokemonControllers = require('../controllers/pokemon');
-const { authenticateUser } = require("../middleware/authMiddleware");
+// call pokemon controller to use its functions in routes
+const pokemonControllers = require('../controllers/pokemon'); 
 
-// GUEST
+// call auth middleware to to know the user if it was authenticated or not.
+const { authenticateUser } = require("../middleware/authMiddleware"); 
+
+
+// GUEST : only get data about pokemon 
 router.get("/hp", pokemonControllers.getHp);
 
 router.get("/type/:type", pokemonControllers.getType);
@@ -15,17 +23,19 @@ router.get("/name/:name", pokemonControllers.getName);
 router.get("/:id", pokemonControllers.getId);
 
 
-//user
-router.post("/", authenticateUser); // authenticate user middleware 
+/** 
+ *  USER : can create , update , delete pokemon.
+ * the middleware will check if the user is authenticated or not,
+ * then after it i`ll put the controller function.
+ * 
+ * contrellers functions will do the work of creating , updating , deleting pokemon
+ */ 
 
-router.put("/:id", authenticateUser); 
+//only the authenticated user can create , update , delete pokemo
+router.post("/", authenticateUser, pokemonControllers.createPokemon);
 
-router.delete("/:id", authenticateUser);
+router.put("/:id", authenticateUser, pokemonControllers.updatePokemon); 
 
-router.delete("/:id", pokemonControllers.deletePokemon);
-
-router.put("/:id", pokemonControllers.updatePokemon);
-
-router.post("/", pokemonControllers.createPokemon); 
+router.delete("/:id", authenticateUser , pokemonControllers.deletePokemon); 
 
 module.exports = router;
